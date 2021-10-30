@@ -1,17 +1,14 @@
 # Script created by Chiriac Adrian Stefan (chr.adrian@yahoo.com)
-# Brief : script to resize a image
+# Brief : script to resize bulk images and save them as .JPG
 
 
 from PIL import Image
 import os
-import PIL
-import glob
 
-
-folder_path = input("Please provide folder path: ")
-os.chdir(folder_path)
-images = [file for file in os.listdir() if file.endswith(('jpeg', 'png', 'jpg'))]
-for image in images:
-    img = Image.open(image)
-    img.resize((2500,1600))
-    img.save("resized_"+image, optimize=True, quality=40)
+folder = input("Please provide folder path: ")
+os.chdir(rf"{folder}")
+for image_name in os.listdir(folder):
+    image = Image.open(image_name)
+    image.thumbnail((3000, 2000))
+    image.save(f"{image_name}_resized.jpg")
+    print(f"Image format: {image.format}, image size: {image.size}")
