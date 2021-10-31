@@ -41,24 +41,18 @@ if int(user_hours) > 24 or int(user_minutes) > 60 or int(user_seconds) > 60:
 if len(user_hours) != 2 or len(user_minutes) != 2 or len(user_seconds) != 2:
     print("Wrong time format, please use 2 digits format!")
     exit()
-# print(f"Current year: {current_year}, current month: {current_month}, current day: {current_day}, "
-#       f"current hour: {current_hours}, current minute: {current_minutes}, current seccond: {current_seconds}")
-# print(f"User year: {user_year}, user month: {user_month}, user day: {user_day}, "
-#       f"user hour: {user_hours}, user minute: {user_minutes}, user seccond: {user_seconds}")
-if user_year < current_year:
-    diff_year = int(current_year) - int(user_year)
-    diff_year = diff_year * 365 * 24 * 60 * 60
-else:
-    diff_year = int(user_year) - int(current_year)
-    diff_year = diff_year * 365 * 24 * 60 * 60
-if current_month > user_month:
-    diff_month = int(current_month) - int(user_month)
-    diff_month = diff_month * 30 * 24 * 60 * 60
-else:
-    diff_month = int(user_month) - int(current_month)
-    diff_month = diff_month * 30 * 24 * 60 * 60
-diff_time = diff_year + diff_month
-def countdown(diff_time:)
+user_date = datetime.datetime(int(user_year), int(user_month), int(user_day), hour=int(user_hours),
+            minute=int(user_minutes), second=int(user_seconds))
+current_date = datetime.datetime(int(current_year), int(current_month), int(current_day), hour=int(current_hours),
+            minute=int(current_minutes), second=int(current_seconds))
+user_date_filtered = ''.join(filter(str.isalnum, str(user_date)))
+current_date_filtered = ''.join(filter(str.isalnum, str(current_date)))
+if int(current_date_filtered) < int(user_date_filtered):
+    difference = user_date - current_date
+    difference_in_seconds = difference.total_seconds()
+    print(difference)
+
+def countdown(diff_time):
     while diff_time > 0:
             diff_time -= 1
             time.sleep(1)
