@@ -6,10 +6,10 @@ import random
 import string
 import re
 
-user_string = input('Enter password: ')
+#user_string = input('Enter password: ')
 
 
-def generate_password(users_tring):
+def generate_password(user_string):
     # Generate a random string that matches the lenght of the user password
     lenght = len(user_string)
     comp_string = string.ascii_letters + string.digits + string.punctuation
@@ -21,7 +21,7 @@ def generate_password(users_tring):
         new_string += user_string[letter]
         new_string += rand_string[letter]
     new_string = new_string[::-1]
-    #print(news_tring)
+    # print(new_string)
     return new_string, rand_string
 
 
