@@ -10,7 +10,8 @@ def GUI_password_encoder():
     sg.theme('DarkAmber')  # Add a touch of color
     # All the stuff inside your window.
     layout = [[sg.Text('Please enter the initial password: '), sg.InputText()],
-              [sg.Button('Ok'), sg.Button('Cancel')]]
+              [sg.Text('Please select the file save path:   '), sg.InputText(), sg.FolderBrowse()],
+              [sg.Button(('OK'), bind_return_key=True), sg.Button('Cancel')]]
 
     # Create the Window
     window = sg.Window('Password encoder GUI', layout, enable_close_attempted_event=True)
@@ -20,9 +21,10 @@ def GUI_password_encoder():
         if (event == sg.WINDOW_CLOSE_ATTEMPTED_EVENT or event == 'Cancel') \
                 and sg.popup_yes_no('Do you really want to exit?') == 'Yes':
             break
-        elif event == "Ok":
-            new_string, rand_string = PasswordEncoder.generate_password(values)
-            PasswordEncoder.write_password_to_file(new_string, rand_string)
+        elif event == "OK":
+            new_string, rand_string = PasswordEncoder.generate_password(values[0])
+            PasswordEncoder.write_password_to_file(new_string, rand_string, values[1])
+            sg.popup(f'File was printed to the following path: {values[1]}')
 
         #print('You entered ', values[0])
     window.close()
@@ -33,7 +35,7 @@ def GUI_password_decoder():
 
     layout = [[sg.Text('Please select encoded password file')],
               [sg.Input(), sg.FileBrowse()],
-              [sg.OK(), sg.Cancel()]]
+              [sg.Button(('OK'), bind_return_key=True), sg.Button('Cancel')]]
 
     window = sg.Window('Password decoder GUI', layout, enable_close_attempted_event=True)
 
@@ -42,6 +44,9 @@ def GUI_password_decoder():
         if (event == sg.WINDOW_CLOSE_ATTEMPTED_EVENT or event == 'Cancel') \
                 and sg.popup_yes_no('Do you really want to exit?') == 'Yes':
             break
+        elif event == "OK":
+            decoded_password = PasswordEncoder.decode_password(values[0])
+            sg.popup(f'Decoded password: {decoded_password}')
     window.close()
 
 
@@ -97,6 +102,6 @@ def widgets_ex():
              'The values are', values)
 
 
-# GUI_password_decoder()
-GUI_password_encoder()
-# event_loop_ex()
+GUI_password_decoder()
+# GUI_password_encoder()
+# widgets_ex()

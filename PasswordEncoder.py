@@ -25,16 +25,16 @@ def generate_password(user_string):
     return new_string, rand_string
 
 
-def write_password_to_file(new_string, rand_string):
+def write_password_to_file(new_string, rand_string, save_path):
     # Open text file
-    text_file = open(r"C:\Users\Me\Desktop\Passwords.txt", "w")
+    text_file = open(rf"{save_path}\Passwords.txt", "w")
     # Write string to file
-    text_file.write(f'Password is: {new_string} with the following encoding: {rand_string}')
+    text_file.write(f'Password is: {new_string} with the following encoding key: {rand_string}')
     # Close file
     text_file.close()
 
-def decode_password():
-    path = input('Enter path to password file: ')
+def decode_password(path):
+    # path = input('Enter path to password file: ')
     # Read the entire file to a string
     with open(path, 'rt') as myfile:
         contents = myfile.read()
@@ -47,6 +47,7 @@ def decode_password():
     # Rebuild the initial user password
     recovered_new_string = re.sub("[|]", '', string_contents_1)[::-1][::2]
     print(recovered_new_string)
+    return(recovered_new_string)
 
 
 # new_string, rand_string = generate_password(user_string)
