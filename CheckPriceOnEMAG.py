@@ -6,6 +6,7 @@ import requests
 from bs4 import BeautifulSoup
 import re
 from datetime import datetime
+import xlwt
 
 
 now = datetime.now()
@@ -15,7 +16,7 @@ print(time)
 HEADERS = {"User Agent":'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
             '(KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36'}
 
-product_URL = r'https://www.emag.ro/consola-playstation-5-so-9396406/pd/DNKW72MBM/'
+product_URL = r'https://www.emag.ro/joc-fifa-22-pentru-xbox-one-ea1102701/pd/D7TRFHMBM/'
 
 # Fetch the url
 HTML_page = requests.get(product_URL, headers=HEADERS)
@@ -48,3 +49,15 @@ try:
 except:
     product_price = 'No price is assigned to this product'
 print(product_price)
+
+#file_path = input("Please specify the path you want to save in: ")
+file_path = r"C:\Users\Me\Desktop"
+wb = xlwt.Workbook()
+ws = wb.add_sheet("Price_check")
+
+ws.write(0, 0, time)
+ws.write(1, 0, product_title)
+ws.write(2, 0, deal_status)
+ws.write(3, 0, product_price)
+
+wb.save(rf'{file_path}/Price Check.xls')
