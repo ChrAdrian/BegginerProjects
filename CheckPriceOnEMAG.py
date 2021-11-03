@@ -13,7 +13,7 @@ from xlutils.copy import copy
 import xlrd
 
 
-product_URL = r'https://www.emag.ro/joc-fifa-22-pentru-xbox-one-ea1102701/pd/D7TRFHMBM/'
+product_URL = r'https://www.emag.ro/telefon-mobil-apple-iphone-12-pro-max-128gb-5g-pacific-blue-mgda3rm-a/pd/DDWRH7MBM/'
 # file_path = input("Please specify the path you want to save in: ")
 file_path = r"C:\Users\Me\Desktop"
 
