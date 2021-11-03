@@ -54,10 +54,23 @@ print(product_price)
 file_path = r"C:\Users\Me\Desktop"
 wb = xlwt.Workbook()
 ws = wb.add_sheet("Price_check")
+style = xlwt.XFStyle ()   # create a style Object initialization pattern
+Al = xlwt.Alignment ()
+Al.horz = 0x02       # arranged horizontally centered
+Al.vert = 0x01       # set vertical centering
+style.alignment = Al
 
-ws.write(0, 0, time)
-ws.write(1, 0, product_title)
-ws.write(2, 0, deal_status)
-ws.write(3, 0, product_price)
+ws.write(0, 0, "Timestamp", style)
+ws.write(0, 1, "Product Title", style)
+ws.write(0, 2, "Deal Status", style)
+ws.write(0, 3, "Product Price", style)
+ws.write(1, 0, time, style)
+ws.write(1, 1, product_title, style)
+ws.write(1, 2, deal_status, style)
+ws.write(1, 3, product_price, style)
+ws.col(0).width = 256 * 20
+ws.col(1).width = 256 * 80
+ws.col(2).width = 256 * 12
+ws.col(3).width = 256 * 15
 
 wb.save(rf'{file_path}/Price Check.xls')
