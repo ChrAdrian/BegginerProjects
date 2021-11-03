@@ -5,7 +5,12 @@
 import requests
 from bs4 import BeautifulSoup
 import re
+from datetime import datetime
 
+
+now = datetime.now()
+time = now.strftime("%d/%m/%Y %H:%M:%S")
+print(time)
 
 HEADERS = {"User Agent":'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
             '(KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36'}
@@ -19,8 +24,8 @@ HTML_page = requests.get(product_URL, headers=HEADERS)
 soup = BeautifulSoup(HTML_page.content, "html.parser")
 
 # Get product title
-product_title = str(soup.product_title).strip('<title>')
-product_title = re.sub(" - eMAG.ro</", "", product_title)
+product_title = soup.find("h1", class_="page-title").text.strip()
+print(product_title)
 
 # Determine deal status
 deal_status = soup.find("p", class_="product-new-price has-deal")
@@ -28,6 +33,7 @@ if deal_status is None:
     deal_status = "No deal"
 else:
     deal_status = "Has deal"
+print(deal_status)
 
 try:
     if("Has deal" in deal_status):
@@ -41,6 +47,4 @@ try:
         product_price = (product_price[:6] + ',' + product_price[6:])[::-1]
 except:
     product_price = 'No price is assigned to this product'
-
-
 print(product_price)
