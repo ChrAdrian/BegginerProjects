@@ -110,7 +110,7 @@ def delete_file(file_path):
 
 
 def write_to_existing_file(n, file_path, timestamp, product_title, deal_status, product_price):
-    write_file = xlrd.open_workbook(rf'{file_path}/Price Check.xls')
+    write_file = xlrd.open_workbook(rf'{file_path}/Price Check.xls', formatting_info=True)
 
     wb = copy(write_file)
     ws = wb.get_sheet(0)
