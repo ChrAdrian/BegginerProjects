@@ -121,10 +121,6 @@ def write_to_existing_file(n, file_path, timestamp, product_title, deal_status, 
     Al.vert = 0x01  # set vertical centering
     style.alignment = Al
 
-    ws.write(int(n + 1), 0, "Timestamp", style)
-    ws.write(int(n + 1), 1, "Product Title", style)
-    ws.write(int(n + 1), 2, "Deal Status", style)
-    ws.write(int(n + 1), 3, "Product Price", style)
     ws.write(int(n + 2), 0, timestamp, style)
     ws.write(int(n + 2), 1, product_title, style)
     ws.write(int(n + 2), 2, deal_status, style)
