@@ -75,6 +75,14 @@ def get_product_price(soup, deal_status):
     return product_price
 
 
+def get_base_price(product_price):
+    base_price = product_price.replace(" Lei", "")
+    base_price = base_price.replace(",", "")
+    base_price = base_price.replace(".", "")
+    price_change_status = "Base price"
+    return base_price, price_change_status
+
+
 def price_change(n, product_price, base_price):
     global price_change_status
 
@@ -85,9 +93,13 @@ def price_change(n, product_price, base_price):
     if int(current_price) != int(base_price):
         if int(current_price) > int(base_price):
             difference_price = int(current_price) - int(base_price)
+            difference_price = difference_price[::-1]
+            difference_price = (difference_price[:2] + ',' + difference_price[2:])[::-1]
             price_change_status = f"Price raised with {difference_price} Lei"
         elif int(current_price) < int(base_price):
             difference_price = int(base_price) - int(current_price)
+            difference_price = difference_price[::-1]
+            difference_price = (difference_price[:2] + ',' + difference_price[2:])[::-1]
             price_change_status = f"Price lowered with {difference_price} Lei"
     else:
         price_change_status = f"No price change"
@@ -170,10 +182,7 @@ def main():
     product_title = get_product_title(get_HTML(product_URL))
     deal_status = get_deal_status(get_HTML(product_URL))
     product_price = get_product_price(get_HTML(product_URL), get_deal_status(get_HTML(product_URL)))
-    base_price = product_price.replace(" Lei", "")
-    base_price = base_price.replace(",", "")
-    base_price = base_price.replace(".", "")
-    price_change_status = "Base price"
+    base_price, price_change_status = get_base_price(product_price)
     save_to_file(file_path, create_output_excel(timestamp, product_title, deal_status, product_price,
                                                 price_change_status))
     sleep(scan_frequency)
