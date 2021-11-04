@@ -12,10 +12,15 @@ import os
 from xlutils.copy import copy
 import xlrd
 
-
 product_URL = r'https://www.emag.ro/telefon-mobil-apple-iphone-12-pro-max-128gb-5g-pacific-blue-mgda3rm-a/pd/DDWRH7MBM/'
 # file_path = input("Please specify the path you want to save in: ")
 file_path = r"C:\Users\Me\Desktop"
+# scan_frequency = input("Please insert scan frequency (in seconds): ")
+file_name = "Price Check"
+# file_name = input("Please enter file name: ")
+scan_frequency = 60
+# cycle_number = input("Please insert the number of cycles: ")
+cycle_number = 3
 
 
 def current_time():
@@ -70,7 +75,29 @@ def get_product_price(soup, deal_status):
     return product_price
 
 
-def create_output_excel(timestamp, product_title, deal_status, product_price):
+def price_change(n, product_price):
+    global base_price, price_change_status
+    if n == 0:
+        base_price = product_price.replace(" Lei", "")
+        base_price = base_price.replace(",", "")
+        price_change_status = "Base price"
+    else:
+        current_price = product_price.replace(" Lei", "")
+        current_price = base_price.replace(",", "")
+        if current_price != base_price:
+            if current_price > base_price:
+                difference_price = int(current_price) - int(base_price)
+                price_change_status = f"Pretul a crescut cu {difference_price} lei"
+            elif current_price < base_price:
+                difference_price = int(base_price) - int(current_price)
+                price_change_status = f"Pretul a scazut cu {difference_price} lei"
+            else:
+                price_change_status = f"Pretul nu s-a schimbat"
+
+    return price_change_status
+
+
+def create_output_excel(timestamp, product_title, deal_status, product_price, price_change_status):
     wb = xlwt.Workbook()
     ws = wb.add_sheet("Price_check")
 
@@ -84,20 +111,23 @@ def create_output_excel(timestamp, product_title, deal_status, product_price):
     ws.write(0, 1, "Product Title", style)
     ws.write(0, 2, "Deal Status", style)
     ws.write(0, 3, "Product Price", style)
+    ws.write(0, 4, "Price Change", style)
     ws.write(1, 0, timestamp, style)
     ws.write(1, 1, product_title, style)
     ws.write(1, 2, deal_status, style)
     ws.write(1, 3, product_price, style)
+    ws.write(1, 4, price_change_status, style)
     ws.col(0).width = 256 * 20
     ws.col(1).width = 256 * 80
     ws.col(2).width = 256 * 12
     ws.col(3).width = 256 * 38
+    ws.col(4).width = 256 * 50
 
     return wb
 
 
 def save_to_file(file_path, wb):
-    wb.save(rf'{file_path}/Price Check.xls')
+    wb.save(rf'{file_path}/{file_name}.xls')
 
 
 def sleep(sleep_time):
@@ -105,12 +135,12 @@ def sleep(sleep_time):
 
 
 def delete_file(file_path):
-    if os.path.isfile(rf'{file_path}/Price Check.xls'):
-        os.remove(rf'{file_path}/Price Check.xls')
+    if os.path.isfile(rf'{file_path}/{file_name}.xls'):
+        os.remove(rf'{file_path}/{file_name}.xls')
 
 
-def write_to_existing_file(n, file_path, timestamp, product_title, deal_status, product_price):
-    write_file = xlrd.open_workbook(rf'{file_path}/Price Check.xls', formatting_info=True)
+def write_to_existing_file(n, file_path, timestamp, product_title, deal_status, product_price, price_change_status):
+    write_file = xlrd.open_workbook(rf'{file_path}/{file_name}.xls', formatting_info=True)
 
     wb = copy(write_file)
     ws = wb.get_sheet(0)
@@ -125,30 +155,35 @@ def write_to_existing_file(n, file_path, timestamp, product_title, deal_status, 
     ws.write(int(n + 2), 1, product_title, style)
     ws.write(int(n + 2), 2, deal_status, style)
     ws.write(int(n + 2), 3, product_price, style)
+    ws.write(int(n + 2), 4, price_change_status, style)
     ws.col(0).width = 256 * 20
     ws.col(1).width = 256 * 80
     ws.col(2).width = 256 * 12
     ws.col(3).width = 256 * 38
+    ws.col(4).width = 256 * 50
 
-    wb.save(rf'{file_path}/Price Check.xls')
+    wb.save(rf'{file_path}/{file_name}.xls')
 
 
 def main():
+    n = 0
     timestamp = current_time()
     product_title = get_product_title(get_HTML(product_URL))
     deal_status = get_deal_status(get_HTML(product_URL))
     product_price = get_product_price(get_HTML(product_URL), get_deal_status(get_HTML(product_URL)))
-    save_to_file(file_path, create_output_excel(timestamp, product_title, deal_status, product_price))
-    sleep(60)
-    n = 0
-    while n < 50:
+    price_change_status = price_change(n, product_price)
+    save_to_file(file_path, create_output_excel(timestamp, product_title, deal_status, product_price,
+                                                price_change_status))
+    sleep(scan_frequency)
+    while n < cycle_number:
         timestamp = current_time()
         product_title = get_product_title(get_HTML(product_URL))
         deal_status = get_deal_status(get_HTML(product_URL))
         product_price = get_product_price(get_HTML(product_URL), get_deal_status(get_HTML(product_URL)))
-        write_to_existing_file(n, file_path, timestamp, product_title, deal_status, product_price)
+        price_change_status = price_change(n, product_price)
+        write_to_existing_file(n, file_path, timestamp, product_title, deal_status, product_price, price_change_status)
         n += 1
-        sleep(60)
+        sleep(scan_frequency)
 
     exit()
 
