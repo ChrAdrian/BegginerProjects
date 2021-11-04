@@ -12,7 +12,7 @@ import os
 from xlutils.copy import copy
 import xlrd
 
-product_URL = r'https://www.emag.ro/telefon-mobil-apple-iphone-12-pro-max-128gb-5g-pacific-blue-mgda3rm-a/pd/DDWRH7MBM/'
+product_URL = r'https://www.emag.ro/carcasa-inaza-katana-mid-tower-fara-sursa-atx-black-katana/pd/D7WMLDMBM/'
 # file_path = input("Please specify the path you want to save in: ")
 file_path = r"C:\Users\Me\Desktop"
 # scan_frequency = input("Please insert scan frequency (in seconds): ")
@@ -75,24 +75,22 @@ def get_product_price(soup, deal_status):
     return product_price
 
 
-def price_change(n, product_price):
-    global base_price, price_change_status
-    if n == 0:
-        base_price = product_price.replace(" Lei", "")
-        base_price = base_price.replace(",", "")
-        price_change_status = "Base price"
+def price_change(n, product_price, base_price):
+    global price_change_status
+
+    price_change_status = []
+    current_price = str(product_price).replace(" Lei", "")
+    current_price = str(current_price).replace(",", "")
+    current_price = str(current_price).replace(".", "")
+    if int(current_price) != int(base_price):
+        if int(current_price) > int(base_price):
+            difference_price = int(current_price) - int(base_price)
+            price_change_status = f"Price raised with {difference_price} Lei"
+        elif int(current_price) < int(base_price):
+            difference_price = int(base_price) - int(current_price)
+            price_change_status = f"Price lowered with {difference_price} Lei"
     else:
-        current_price = product_price.replace(" Lei", "")
-        current_price = base_price.replace(",", "")
-        if current_price != base_price:
-            if current_price > base_price:
-                difference_price = int(current_price) - int(base_price)
-                price_change_status = f"Pretul a crescut cu {difference_price} lei"
-            elif current_price < base_price:
-                difference_price = int(base_price) - int(current_price)
-                price_change_status = f"Pretul a scazut cu {difference_price} lei"
-            else:
-                price_change_status = f"Pretul nu s-a schimbat"
+        price_change_status = f"No price change"
 
     return price_change_status
 
@@ -151,11 +149,11 @@ def write_to_existing_file(n, file_path, timestamp, product_title, deal_status, 
     Al.vert = 0x01  # set vertical centering
     style.alignment = Al
 
-    ws.write(int(n + 2), 0, timestamp, style)
-    ws.write(int(n + 2), 1, product_title, style)
-    ws.write(int(n + 2), 2, deal_status, style)
-    ws.write(int(n + 2), 3, product_price, style)
-    ws.write(int(n + 2), 4, price_change_status, style)
+    ws.write(int(n + 1), 0, timestamp, style)
+    ws.write(int(n + 1), 1, product_title, style)
+    ws.write(int(n + 1), 2, deal_status, style)
+    ws.write(int(n + 1), 3, product_price, style)
+    ws.write(int(n + 1), 4, price_change_status, style)
     ws.col(0).width = 256 * 20
     ws.col(1).width = 256 * 80
     ws.col(2).width = 256 * 12
@@ -166,21 +164,26 @@ def write_to_existing_file(n, file_path, timestamp, product_title, deal_status, 
 
 
 def main():
-    n = 0
+    global base_price
+    n = 1
     timestamp = current_time()
     product_title = get_product_title(get_HTML(product_URL))
     deal_status = get_deal_status(get_HTML(product_URL))
     product_price = get_product_price(get_HTML(product_URL), get_deal_status(get_HTML(product_URL)))
-    price_change_status = price_change(n, product_price)
+    base_price = product_price.replace(" Lei", "")
+    base_price = base_price.replace(",", "")
+    base_price = base_price.replace(".", "")
+    price_change_status = "Base price"
     save_to_file(file_path, create_output_excel(timestamp, product_title, deal_status, product_price,
                                                 price_change_status))
     sleep(scan_frequency)
+
     while n < cycle_number:
         timestamp = current_time()
         product_title = get_product_title(get_HTML(product_URL))
         deal_status = get_deal_status(get_HTML(product_URL))
         product_price = get_product_price(get_HTML(product_URL), get_deal_status(get_HTML(product_URL)))
-        price_change_status = price_change(n, product_price)
+        price_change_status = price_change(n, product_price, base_price)
         write_to_existing_file(n, file_path, timestamp, product_title, deal_status, product_price, price_change_status)
         n += 1
         sleep(scan_frequency)
