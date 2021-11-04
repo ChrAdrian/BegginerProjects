@@ -87,7 +87,7 @@ def get_base_price(product_price):
 
 def send_sms(product_url, difference_price):
     account_sid = 'AC228e9e6d61c80992890915e6842e5e2c'
-    auth_token = '032d0a9a3e1baa5d06669582fffa6efd'
+    auth_token = 'get auth token from console on twilio.com'
     client = Client(account_sid, auth_token)
     client.messages.create(to="+40754940308",
                            from_="+14327555280",
