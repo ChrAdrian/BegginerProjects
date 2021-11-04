@@ -11,6 +11,8 @@ import time
 import os
 from xlutils.copy import copy
 import xlrd
+from twilio.rest import Client
+
 
 product_URL = r'https://www.emag.ro/carcasa-inaza-katana-mid-tower-fara-sursa-atx-black-katana/pd/D7WMLDMBM/'
 # file_path = input("Please specify the path you want to save in: ")
@@ -20,7 +22,7 @@ file_name = "Price Check"
 # file_name = input("Please enter file name: ")
 scan_frequency = 60
 # cycle_number = input("Please insert the number of cycles: ")
-cycle_number = 3
+cycle_number = 2
 
 
 def current_time():
@@ -83,6 +85,16 @@ def get_base_price(product_price):
     return base_price, price_change_status
 
 
+def send_sms(product_url, difference_price):
+    account_sid = 'AC228e9e6d61c80992890915e6842e5e2c'
+    auth_token = '032d0a9a3e1baa5d06669582fffa6efd'
+    client = Client(account_sid, auth_token)
+    client.messages.create(to="+40754940308",
+                           from_="+14327555280",
+                           body=f"Price lowered for {get_product_title(get_HTML(product_URL))} "
+                                f" with {difference_price} Lei")
+
+
 def price_change(n, product_price, base_price):
     global price_change_status
 
@@ -101,6 +113,7 @@ def price_change(n, product_price, base_price):
             difference_price = difference_price[::-1]
             difference_price = (difference_price[:2] + ',' + difference_price[2:])[::-1]
             price_change_status = f"Price lowered with {difference_price} Lei"
+            send_sms(product_URL, difference_price)
     else:
         price_change_status = f"No price change"
 
