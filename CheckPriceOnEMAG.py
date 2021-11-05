@@ -15,24 +15,9 @@ from twilio.rest import Client
 import PySimpleGUI as sg
 
 
-# product_url = r'https://www.emag.ro/consola-playstation-5-so-9396406/pd/DNKW72MBM/?X-Search-Id=03a182122c656a19adb3&X' \
-#               r'-Product-Id=83623105&X-Search-Page=1&X-Search-Position=2&X-Section=search&X-MB=0&X-Search-Action=view'
-# file_path = input("Please specify the path you want to save in: ")
-# file_path = r"C:\Users\Me\Desktop"
-# scan_frequency = input("Please insert scan frequency (in seconds): ")
-# file_name = "Price Check"
-# file_name = input("Please enter file name: ")
-# scan_frequency = 3600
-# cycle_number = input("Please insert the number of cycles: ")
-# cycle_number = 48
-# phone_number = input("Please define phone number (include country code) to receive alerts: ")
-# phone_number = "+40754940308"
-
-
 def current_time():
     now = datetime.now()
     timestamp = now.strftime("%d/%m/%Y %H:%M:%S")
-    # print(timestamp)
     return timestamp
 
 
@@ -49,7 +34,6 @@ def get_HTML(product_url):
 def get_product_title(soup):
     # Get product title
     product_title = soup.find("h1", class_="page-title").text.strip()
-    # print(product_title)
     return product_title
 
 
@@ -60,7 +44,6 @@ def get_deal_status(soup):
         deal_status = "No deal"
     else:
         deal_status = "Has deal"
-    # print(deal_status)
     return deal_status
 
 
@@ -77,7 +60,6 @@ def get_product_price(soup, deal_status):
             product_price = (product_price[:6] + ',' + product_price[6:])[::-1]
     except:
         product_price = 'No price is assigned to this product'
-    # print(product_price)
     return product_price
 
 
@@ -221,7 +203,6 @@ def main_emag(product_url, file_path, file_name, phone_number, scan_frequency, c
 
 def GUI_main():
     sg.theme('DarkAmber')  # Add a touch of color
-    # All the stuff inside your window.
     layout=[
     [sg.Text('E-Market Product Price Checker', size=(30, 1), justification='center', font=("Helvetica", 25),
                 relief=sg.RELIEF_RIDGE)],
@@ -285,5 +266,3 @@ def GUI_main():
 
 
 GUI_main()
-# main_emag()
-# delete_file(file_path)
