@@ -223,29 +223,31 @@ def GUI_main():
     sg.theme('DarkAmber')  # Add a touch of color
     # All the stuff inside your window.
     layout=[
-    [sg.Text('E-market Product Price Checker', size=(30, 1), justification='center', font=("Helvetica", 25),
+    [sg.Text('E-Market Product Price Checker', size=(30, 1), justification='center', font=("Helvetica", 25),
                 relief=sg.RELIEF_RIDGE)],
 
     [sg.Text('Please enter the product link: '), sg.InputText(size=(54,1))],
     [sg.Text('Please select the file save path:   '), sg.InputText(size=(42,1)), sg.FolderBrowse()],
     [sg.Text('Please enter the desired file name: '), sg.InputText(size=(50,1))],
-    [sg.Text('Please enter the phone number in order to receive alerts: '), sg.InputText(size=(32,1))],
+    [sg.Text('Please enter the phone number in order to receive alerts (+country code): '), sg.InputText(size=(18,1))],
 
     [sg.Column([[sg.Text('Please select the scan frequency (minutes)')],
     [sg.Slider(range=(1, 60), orientation='h', size=(63, 20), default_value=10)],
     [sg.Text('Please select the number of scanning cycles')],
     [sg.Slider(range=(1, 96), orientation='h', size=(63, 20), default_value=6)]])],
 
-    [sg.Button(('OK'), bind_return_key=True), sg.Button('Cancel')]]
+    [sg.Button(('OK'), bind_return_key=True), sg.Button('Quit')]]
 
     # Create the Window
-    window = sg.Window('Password encoder GUI', layout, element_justification='c', enable_close_attempted_event=True)
+    window = sg.Window('E-Market Product Price Checker', layout, element_justification='c',
+                       enable_close_attempted_event=True)
     # Event Loop to process "events" and get the "values" of the inputs
     while True:
         event, values = window.read()
-        if (event == sg.WINDOW_CLOSE_ATTEMPTED_EVENT or event == 'Cancel') \
-                and sg.popup_yes_no('Do you really want to exit?') == 'Yes':
+        if (event == sg.WINDOW_CLOSE_ATTEMPTED_EVENT) and sg.popup_yes_no('Do you really want to exit?') == 'Yes':
             break
+        if (event == 'Quit') and sg.popup_yes_no('Do you really want to exit?') == 'Yes':
+            exit()
         elif event == "OK":
             product_url = values[0]
             file_path = values[1]
@@ -253,8 +255,31 @@ def GUI_main():
             phone_number = values[3]
             scan_frequency = int(values[4])
             cycle_number = int(values[5])
-            main_emag(product_url, file_path, file_name, phone_number, scan_frequency, cycle_number)
-            sg.popup(f'File was printed to the following path: {values[1]}')
+            global base_price
+            n = 1
+            timestamp = current_time()
+            product_title = get_product_title(get_HTML(product_url))
+            deal_status = get_deal_status(get_HTML(product_url))
+            product_price = get_product_price(get_HTML(product_url), get_deal_status(get_HTML(product_url)))
+            base_price, price_change_status = get_base_price(product_price)
+            save_to_file(file_path, create_output_excel(timestamp, product_title, deal_status, product_price,
+                                                        price_change_status), file_name)
+            sg.popup('Scan in progress!')
+            window.read(timeout=int(scan_frequency)*1000*60)
+            window.refresh()
+
+            while n < cycle_number:
+                timestamp = current_time()
+                product_title = get_product_title(get_HTML(product_url))
+                deal_status = get_deal_status(get_HTML(product_url))
+                product_price = get_product_price(get_HTML(product_url), get_deal_status(get_HTML(product_url)))
+                price_change_status = price_change(n, product_price, base_price)
+                write_to_existing_file(n, file_path, timestamp, product_title, deal_status,
+                                       product_price, price_change_status, file_name)
+                n += 1
+                window.read(timeout=int(scan_frequency)*1000*60)
+                window.refresh()
+            sg.popup('Scan finished!')
 
     window.close()
 
