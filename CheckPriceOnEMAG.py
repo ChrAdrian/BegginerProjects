@@ -226,20 +226,20 @@ def GUI_main():
     [sg.Text('E-market Product Price Checker', size=(30, 1), justification='center', font=("Helvetica", 25),
                 relief=sg.RELIEF_RIDGE)],
 
-    [sg.Text('Please enter the product link: '), sg.InputText()],
-    [sg.Text('Please select the file save path:   '), sg.InputText(), sg.FolderBrowse()],
-    [sg.Text('Please enter the desired file name: '), sg.InputText()],
-    [sg.Text('Please enter the phone number in order to receive alerts: '), sg.InputText()],
+    [sg.Text('Please enter the product link: '), sg.InputText(size=(54,1))],
+    [sg.Text('Please select the file save path:   '), sg.InputText(size=(42,1)), sg.FolderBrowse()],
+    [sg.Text('Please enter the desired file name: '), sg.InputText(size=(50,1))],
+    [sg.Text('Please enter the phone number in order to receive alerts: '), sg.InputText(size=(32,1))],
 
-    [sg.Column([[sg.Text('Please select the scan frequency (minutes)', justification='center')],
-    [sg.Slider(range=(1, 60), orientation='h', size=(60, 20), default_value=10)],
-    [sg.Text('Please select the number of scanning cycles', justification='center')],
-    [sg.Slider(range=(1, 96), orientation='h', size=(60, 20), default_value=6)]])],
+    [sg.Column([[sg.Text('Please select the scan frequency (minutes)')],
+    [sg.Slider(range=(1, 60), orientation='h', size=(63, 20), default_value=10)],
+    [sg.Text('Please select the number of scanning cycles')],
+    [sg.Slider(range=(1, 96), orientation='h', size=(63, 20), default_value=6)]])],
 
     [sg.Button(('OK'), bind_return_key=True), sg.Button('Cancel')]]
 
     # Create the Window
-    window = sg.Window('Password encoder GUI', layout, enable_close_attempted_event=True)
+    window = sg.Window('Password encoder GUI', layout, element_justification='c', enable_close_attempted_event=True)
     # Event Loop to process "events" and get the "values" of the inputs
     while True:
         event, values = window.read()
