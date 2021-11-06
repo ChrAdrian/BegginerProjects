@@ -73,7 +73,7 @@ def get_base_price(product_price):
 
 def send_sms(product_url, difference_price, phone_number):
     account_sid = 'AC228e9e6d61c80992890915e6842e5e2c'
-    auth_token = '*'
+    auth_token = 'Put here auth token from Twilio'
     client = Client(account_sid, auth_token)
     client.messages.create(to=f"{phone_number}",
                            from_="+14327555280",
