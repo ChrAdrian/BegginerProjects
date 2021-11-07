@@ -27,7 +27,7 @@ def get_banner(s):
 def scan_port(ipaddress, port):
     try:
         sock = socket.socket()
-        sock.settimeout(1)      # Set the timeout (accuracy depends on the timeout)
+        sock.settimeout(0.5)      # Set the timeout (accuracy depends on the timeout)
         sock.connect((ipaddress, port))
         try:
             banner = get_banner(sock)       # For SW running on the open port
