@@ -31,9 +31,9 @@ def scan_port(ipaddress, port):
         sock.connect((ipaddress, port))
         try:
             banner = get_banner(sock)       # For SW running on the open port
-            print('[+] Open Port' + str(port) + ' : ' + str(banner.decode().strip('\n')))
+            print('[+] Open Port ' + str(port) + ' : ' + str(banner.decode().strip('\n')))
         except:
-            print('[+] Open Port' + str(port))
+            print('[+] Open Port ' + str(port))
     except:
         pass        # For closed ports
 
