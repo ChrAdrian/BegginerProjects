@@ -38,7 +38,7 @@ def scan_port(ipaddress, port):
         pass        # For closed ports
 
 
-def port_scanner():
+if __name__ == "__main__":      # This part is run only if PortScaner.py is run / not run if exported to other programs
     targets = input('Enter Target/s To Scan (Split Multiple Targets With ","): ')
     nr_of_ports = input('Enter The Number Of Ports you Want To Scan: ')
     if ',' in targets:      # For multiple targets delimitation
@@ -46,6 +46,3 @@ def port_scanner():
             scan(ip_add, nr_of_ports)
     else:
         scan(targets, nr_of_ports)       # Scan individual target
-
-
-port_scanner()
