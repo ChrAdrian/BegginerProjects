@@ -72,9 +72,60 @@ class Dog(Pet):     # Class Dog inherits class Pet methods
         print("Bark")
 
 
-p = Pet("Tim", 19)
-p.speak()
-c = Cat("Bill", 34, "red")
-c.show()
-d = Dog("Jill", 12)
-d.speak()
+# p = Pet("Tim", 19)
+# p.speak()
+# c = Cat("Bill", 34, "red")
+# c.show()
+# d = Dog("Jill", 12)
+# d.speak()
+
+
+# Class atributes
+class Person:
+    number_of_people = 0        # Class atribute - is available for all methods in the class
+
+    def __init__(self, name):
+        self.name = name
+        Person.number_of_people += 1
+
+# p1 = Person("Tim")
+# print(Person.number_of_people)
+# p2 = Person("Adi")
+# print(Person.number_of_people)
+
+
+# Class methods
+class Person:
+    number_of_people = 0        # Class atribute - is available for all methods in the class
+
+    def __init__(self, name):
+        self.name = name
+        Person.add_person()
+
+    @classmethod        # Defining a class method - acts on the class
+    def number_of_people_(cls):
+        return cls.number_of_people
+
+    @classmethod
+    def add_person(cls):
+        cls.number_of_people += 1
+
+# p1 = Person("Adi")
+# print(Person.number_of_people_())
+
+
+# Static methods
+class Math:
+    @staticmethod       # Defining a static method
+    def add5(x):
+        return x + 5
+
+    @staticmethod
+    def add10(x):
+        return x + 10
+
+    @staticmethod
+    def pr():
+        print("Run")
+
+# print(Math.add5(6))
