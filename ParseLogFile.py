@@ -8,7 +8,8 @@ import os
 
 folder_path = r"C:\Users\Me\Desktop\CUO_Logs"
 
-for file_name in os.listdir(folder_path):
+for file_name in sorted(os.listdir(folder_path)):
+    print(f"Log file in process: {file_name}")
     os.chdir(folder_path)
     try:
 
@@ -40,6 +41,10 @@ for file_name in os.listdir(folder_path):
             print("\n\"" + "Package index" + "\" is not found in \"" + file_name + "\"!")
         else:
             package_index_list = [s.strip() for s in package_index_list]
+
+        data = {timestamp_list[i]: package_index_list[i] for i in range(len(timestamp_list))}
+        with open("data.txt", "a") as file:
+            file.write(f"{data}")
 
     except:
         print("\nThe file doesn't exist!")
