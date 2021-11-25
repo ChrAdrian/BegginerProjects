@@ -17,6 +17,7 @@ for file_name in os.listdir(folder_path):
         lines = file_read.readlines()
 
         timestamp_list = []
+        package_index_list = []
         idx = 0
 
         for line in lines:
@@ -25,13 +26,20 @@ for file_name in os.listdir(folder_path):
                 timestamp_list.insert(idx, line)
                 idx += 1
 
+            if 'index' in line:
+                package_index_list.insert(idx, line)
+
         file_read.close()
 
         if len(timestamp_list) == 0:
             print("\n\"" + "Timestamp" + "\" is not found in \"" + file_name + "\"!")
         else:
             timestamp_list = [s.strip() for s in timestamp_list]
-            print(timestamp_list)
+
+        if len(package_index_list) == 0:
+            print("\n\"" + "Package index" + "\" is not found in \"" + file_name + "\"!")
+        else:
+            package_index_list = [s.strip() for s in package_index_list]
 
     except:
         print("\nThe file doesn't exist!")
