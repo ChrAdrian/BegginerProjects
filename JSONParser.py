@@ -7,6 +7,10 @@ import os
 
 
 os.chdir(r"C:\Users\Me\Desktop\CUO_Logs")
-with open('test1.json', 'r') as json_file:
+with open('2021_0638_118.json', 'r') as json_file:
 	json_load = json.load(json_file)
 	print(json_load)
+
+data = json_load['fields']
+for x in data:
+	print(x['package_index'], x['timestamp'])
