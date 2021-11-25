@@ -42,9 +42,9 @@ for file_name in sorted(os.listdir(folder_path)):
         else:
             package_index_list = [s.strip() for s in package_index_list]
 
-        data = [j for i in zip(timestamp_list,package_index_list) for j in i]
-        with open("data.txt", "a") as file:
-            file.write(f"{data}")
+        data = [j for i in zip(package_index_list,timestamp_list) for j in i]
+        data = '\n'.join(str(line) for line in data)
+        print(data)
 
     except:
         print("\nThe file doesn't exist!")
