@@ -50,9 +50,13 @@ for file_name in sorted(os.listdir(folder_path)):
     data = [j for i in zip(package_index_list, timestamp_list) for j in i]
     data = data[:len(data) - 2]
     data = [data[n + 2:n + 4] for n in range(0, len(data), 4)]
-    grouped_data = []
-    for s in data:
-        print(*s)
+    # print(data)
+    for sublist in data:
+        if "27" in sublist:
+            print(sublist)
+    # grouped_data = ""
+    # for s in data:
+    #     print(*s)
 
     # except:
     #     print("\nThe file doesn't exist!")
