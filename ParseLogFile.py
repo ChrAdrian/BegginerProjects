@@ -5,6 +5,7 @@
 import os
 import re
 
+
 package_type_ID = input("Please insert package index: ")
 folder_path = r"C:\Users\Me\Desktop\CUO_Logs"
 sample_rate = {0.1: [10, 11],
@@ -73,6 +74,7 @@ for file_name in sorted(os.listdir(folder_path)):
                 signal_data_set = set([x for y in sublist for x in y])
                 timestamp_values = ''.join(signal_data_set)
                 timestamp_values_filtered_list.append(timestamp_values)
+                timestamp_values_filtered_list.sort(reverse=True)
         print(timestamp_values_filtered_list)
 
     except:
