@@ -28,7 +28,8 @@ if int(package_type_ID) > 30 or int(package_type_ID) < 1:
 
 frequency_by_sample_rate = [a for a, b in sample_rate.items() if int(package_type_ID) in b]
 frequency_by_sample_rate = float(''.join(str(i) for i in frequency_by_sample_rate))
-print(frequency.get(float(f"{frequency_by_sample_rate}")))
+deviation_range = (frequency.get(float(f"{frequency_by_sample_rate}")))
+print(deviation_range)
 
 for file_name in sorted(os.listdir(folder_path)):
     print(f"Log file in process: {file_name}")
