@@ -7,6 +7,7 @@ import os
 import re
 
 
+package_index = input("Please insert package index: ")
 folder_path = r"C:\Users\Me\Desktop\CUO_Logs"
 
 for file_name in sorted(os.listdir(folder_path)):
@@ -50,13 +51,12 @@ for file_name in sorted(os.listdir(folder_path)):
     data = [j for i in zip(package_index_list, timestamp_list) for j in i]
     data = data[:len(data) - 2]
     data = [data[n + 2:n + 4] for n in range(0, len(data), 4)]
-    # print(data)
     for sublist in data:
-        if "27" in sublist:
-            print(sublist)
-    # grouped_data = ""
-    # for s in data:
-    #     print(*s)
+        if package_index in sublist:
+            sublist = [sublist[n + 1:n + 2] for n in range(0, len(sublist), 2)]
+            data_set = set([x for y in sublist for x in y])
+            timestamp_values = ''.join(data_set)
+            print(timestamp_values)
 
     # except:
     #     print("\nThe file doesn't exist!")
