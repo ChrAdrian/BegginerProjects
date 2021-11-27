@@ -19,6 +19,7 @@ frequency = {0.1: 10000,
              20: 50,
              100: 10
              }
+timestamp_values_filtered_list = []
 
 if int(package_type_ID) > 30 or int(package_type_ID) < 1:
     print("Package type ID must be between 1 and 30 according to the logging master scheme")
@@ -71,7 +72,8 @@ for file_name in sorted(os.listdir(folder_path)):
                 sublist = [sublist[n + 1:n + 2] for n in range(0, len(sublist), 2)]
                 signal_data_set = set([x for y in sublist for x in y])
                 timestamp_values = ''.join(signal_data_set)
-                print(timestamp_values)
+                timestamp_values_filtered_list.append(timestamp_values)
+        print(timestamp_values_filtered_list)
 
     except:
         print("\nThe file doesn't exist!")
