@@ -7,7 +7,7 @@ import os
 import re
 
 
-package_index = input("Please insert package index: ")
+signal_index = input("Please insert package index: ")
 folder_path = r"C:\Users\Me\Desktop\CUO_Logs"
 
 for file_name in sorted(os.listdir(folder_path)):
@@ -20,7 +20,7 @@ for file_name in sorted(os.listdir(folder_path)):
         lines = file_read.readlines()
 
         timestamp_list = []
-        package_index_list = []
+        signal_index_list = []
         idx = 0
 
         for line in lines:
@@ -30,7 +30,7 @@ for file_name in sorted(os.listdir(folder_path)):
                 idx += 1
 
             if 'index' in line:
-                package_index_list.insert(idx, line)
+                signal_index_list.insert(idx, line)
 
         file_read.close()
 
@@ -41,22 +41,22 @@ for file_name in sorted(os.listdir(folder_path)):
             timestamp_list = timestamp_list[2:-2].replace("'", "")
             timestamp_list = re.split(r"(\d+)", timestamp_list)
 
-        if len(package_index_list) == 0:
-            print("\n\"" + "Package index" + "\" is not found in \"" + file_name + "\"!")
+        if len(signal_index_list) == 0:
+            print("\n\"" + "Signal index" + "\" is not found in \"" + file_name + "\"!")
         else:
-            package_index_list = str([s.strip() for s in package_index_list]).replace(",", "")
-            package_index_list = package_index_list[2:-2].replace("'", "")
-            package_index_list = re.split(r"(\d+)", package_index_list)
+            signal_index_list = str([s.strip() for s in signal_index_list]).replace(",", "")
+            signal_index_list = signal_index_list[2:-2].replace("'", "")
+            signal_index_list = re.split(r"(\d+)", signal_index_list)
 
-        data = [j for i in zip(package_index_list, timestamp_list) for j in i]
+        data = [j for i in zip(signal_index_list, timestamp_list) for j in i]
         data = data[:len(data) - 2]
         data = [data[n + 2:n + 4] for n in range(0, len(data), 4)]
 
         for sublist in data:
-            if package_index in sublist:
+            if signal_index in sublist:
                 sublist = [sublist[n + 1:n + 2] for n in range(0, len(sublist), 2)]
-                data_set = set([x for y in sublist for x in y])
-                timestamp_values = ''.join(data_set)
+                signal_data_set = set([x for y in sublist for x in y])
+                timestamp_values = ''.join(signal_data_set)
                 print(timestamp_values)
 
     except:
