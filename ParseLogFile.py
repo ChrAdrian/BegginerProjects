@@ -6,8 +6,12 @@ import os
 import re
 
 
-signal_index = input("Please insert package index: ")
+package_type_ID = input("Please insert package index: ")
 folder_path = r"C:\Users\Me\Desktop\CUO_Logs"
+
+if int(package_type_ID) > 30 or int(package_type_ID) < 1:
+    print("Package type ID must be between 1 and 30 according to the logging master scheme")
+    exit()
 
 for file_name in sorted(os.listdir(folder_path)):
     print(f"Log file in process: {file_name}")
@@ -19,7 +23,7 @@ for file_name in sorted(os.listdir(folder_path)):
         lines = file_read.readlines()
 
         timestamp_list = []
-        signal_index_list = []
+        package_type_ID_list = []
         idx = 0
 
         for line in lines:
@@ -29,7 +33,7 @@ for file_name in sorted(os.listdir(folder_path)):
                 idx += 1
 
             if 'index' in line:
-                signal_index_list.insert(idx, line)
+                package_type_ID_list.insert(idx, line)
 
         file_read.close()
 
@@ -40,19 +44,19 @@ for file_name in sorted(os.listdir(folder_path)):
             timestamp_list = timestamp_list[2:-2].replace("'", "")
             timestamp_list = re.split(r"(\d+)", timestamp_list)
 
-        if len(signal_index_list) == 0:
+        if len(package_type_ID_list) == 0:
             print("\n\"" + "Signal index" + "\" is not found in \"" + file_name + "\"!")
         else:
-            signal_index_list = str([s.strip() for s in signal_index_list]).replace(",", "")
-            signal_index_list = signal_index_list[2:-2].replace("'", "")
-            signal_index_list = re.split(r"(\d+)", signal_index_list)
+            package_type_ID_list = str([s.strip() for s in package_type_ID_list]).replace(",", "")
+            package_type_ID_list = package_type_ID_list[2:-2].replace("'", "")
+            package_type_ID_list = re.split(r"(\d+)", package_type_ID_list)
 
-        data = [j for i in zip(signal_index_list, timestamp_list) for j in i]
+        data = [j for i in zip(package_type_ID_list, timestamp_list) for j in i]
         data = data[:len(data) - 2]
         data = [data[n + 2:n + 4] for n in range(0, len(data), 4)]
 
         for sublist in data:
-            if signal_index in sublist:
+            if package_type_ID in sublist:
                 sublist = [sublist[n + 1:n + 2] for n in range(0, len(sublist), 2)]
                 signal_data_set = set([x for y in sublist for x in y])
                 timestamp_values = ''.join(signal_data_set)
