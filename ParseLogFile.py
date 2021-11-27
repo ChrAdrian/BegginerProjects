@@ -8,6 +8,12 @@ import re
 
 package_type_ID = input("Please insert package index: ")
 folder_path = r"C:\Users\Me\Desktop\CUO_Logs"
+sample_rate = { 0.1: [10, 11],
+                1: [9, 12, 24, 25],
+                10: [1, 4, 17, 28, 29],
+                20: [2, 5, 6, 7, 8, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 26, 27, 30],
+                100: [3]
+                }
 
 if int(package_type_ID) > 30 or int(package_type_ID) < 1:
     print("Package type ID must be between 1 and 30 according to the logging master scheme")
