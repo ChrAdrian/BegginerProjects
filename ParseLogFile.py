@@ -2,7 +2,6 @@
 # Brief : script to transform .txt file into JSON file
 
 
-import json
 import os
 import re
 
