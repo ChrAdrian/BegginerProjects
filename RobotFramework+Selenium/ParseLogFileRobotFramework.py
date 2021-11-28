@@ -61,7 +61,8 @@ def read_log_file(folder_path):
 
         return timestamp_list, package_type_id_list, file_name
 
-def process_data(timestamp_list, package_type_id_list, file_name)
+
+def process_data(timestamp_list, package_type_id_list, file_name):
     if len(timestamp_list) == 0:
         print("\n\"" + "Timestamp" + "\" is not found in \"" + file_name + "\"!")
     else:
@@ -82,6 +83,7 @@ def process_data(timestamp_list, package_type_id_list, file_name)
 
     return data
 
+
 def get_timestamp_values(data):
     timestamp_values_filtered_list = []
     for sublist in data:
@@ -94,15 +96,18 @@ def get_timestamp_values(data):
 
     return timestamp_values_filtered_list
 
+
 def calculate_timestamp_difference(timestamp_values_filtered_list):
     timestamp_difference = [x - y for x, y in zip(timestamp_values_filtered_list, timestamp_values_filtered_list[1:])]
     print(timestamp_difference)
 
     return timestamp_difference
 
-def check_timestamp_sample_rate_corelation(timestamp_difference, min_frequency, max_frequency):
+
+def check_timestamp_sample_rate_correlation(timestamp_difference, min_frequency, max_frequency):
     for value in timestamp_difference:
         if value not in range(min_frequency, max_frequency):
             raise AssertionError(f"Timestamps not correlated with the sample rate! Value {value} is out of range!")
         else:
             continue
+
