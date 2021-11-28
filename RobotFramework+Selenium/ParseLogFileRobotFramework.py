@@ -32,7 +32,7 @@ def get_package_frequency_range(package_type_id):
     max_frequency = deviation_range[1]
     print(f"Accepted frequency deviation range is between {min_frequency} and {max_frequency} milliseconds")
 
-    return min_frequency, max_frequency
+    return min_frequency, max_frequency, package_type_id
 
 
 def read_log_file(folder_path):
@@ -84,10 +84,10 @@ def process_data(timestamp_list, package_type_id_list, file_name):
     return data
 
 
-def get_timestamp_values(data):
+def get_timestamp_values(data, package_type_id):
     timestamp_values_filtered_list = []
     for sublist in data:
-        if package_type_id in sublist:
+        if str(package_type_id) in sublist:
             sublist = [sublist[n + 1:n + 2] for n in range(0, len(sublist), 2)]
             signal_data_set = set([x for y in sublist for x in y])
             timestamp_values = int(''.join(signal_data_set))
@@ -111,3 +111,10 @@ def check_timestamp_sample_rate_correlation(timestamp_difference, min_frequency,
         else:
             continue
 
+
+min_frequency, max_frequency, package_type_id = get_package_frequency_range(10)
+timestamp_list, package_type_id_list, file_name = read_log_file(r"C:\Users\Me\Desktop\CUO_Logs")
+data = process_data(timestamp_list, package_type_id_list, file_name)
+timestamp_values_filtered_list = get_timestamp_values(data, package_type_id)
+timestamp_difference = calculate_timestamp_difference(timestamp_values_filtered_list)
+check_timestamp_sample_rate_correlation(timestamp_difference, min_frequency, max_frequency)
