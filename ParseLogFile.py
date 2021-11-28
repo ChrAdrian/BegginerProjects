@@ -29,7 +29,7 @@ if int(package_type_ID) > 30 or int(package_type_ID) < 1:
 frequency_by_sample_rate = [a for a, b in sample_rate.items() if int(package_type_ID) in b]
 frequency_by_sample_rate = float(''.join(str(i) for i in frequency_by_sample_rate))
 deviation_range = (frequency.get(float(f"{frequency_by_sample_rate}")))
-print(deviation_range)
+print(f"Deviation range: {deviation_range}")
 
 for file_name in sorted(os.listdir(folder_path)):
     print(f"Log file in process: {file_name}")
@@ -82,7 +82,7 @@ for file_name in sorted(os.listdir(folder_path)):
             timestamp_values_filtered_list.sort(reverse=True)
 
     timestamp_difference = [x - y for x, y in zip(timestamp_values_filtered_list, timestamp_values_filtered_list[1:])]
-    # print(timestamp_difference)
+    print(timestamp_difference)
 
     # except:
     #     print("\nThe file doesn't exist!")
