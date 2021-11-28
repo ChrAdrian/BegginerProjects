@@ -75,7 +75,7 @@ for file_name in sorted(os.listdir(folder_path)):
     data = [data[n + 2:n + 4] for n in range(0, len(data), 4)]
 
     for sublist in data:
-        if package_type_ID in sublist:
+        if str(package_type_ID) in sublist:
             sublist = [sublist[n + 1:n + 2] for n in range(0, len(sublist), 2)]
             signal_data_set = set([x for y in sublist for x in y])
             timestamp_values = int(''.join(signal_data_set))

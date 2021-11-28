@@ -112,7 +112,7 @@ def check_timestamp_sample_rate_correlation(timestamp_difference, min_frequency,
             continue
 
 
-min_frequency, max_frequency, package_type_id = get_package_frequency_range(10)
+min_frequency, max_frequency, package_type_id = get_package_frequency_range(18)
 timestamp_list, package_type_id_list, file_name = read_log_file(r"C:\Users\Me\Desktop\CUO_Logs")
 data = process_data(timestamp_list, package_type_id_list, file_name)
 timestamp_values_filtered_list = get_timestamp_values(data, package_type_id)
