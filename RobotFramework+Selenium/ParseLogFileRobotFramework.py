@@ -5,8 +5,6 @@
 import os
 import re
 
-timestamp_values_filtered_list = []
-
 
 def get_package_frequency_range(package_type_id):
     sample_rate = {0.1: [10, 11],
@@ -84,6 +82,8 @@ def process_data(timestamp_list, package_type_id_list, file_name)
 
     return data
 
+def get_timestamp_values(data):
+    timestamp_values_filtered_list = []
     for sublist in data:
         if package_type_id in sublist:
             sublist = [sublist[n + 1:n + 2] for n in range(0, len(sublist), 2)]
@@ -92,8 +92,13 @@ def process_data(timestamp_list, package_type_id_list, file_name)
             timestamp_values_filtered_list.append(timestamp_values)
             timestamp_values_filtered_list.sort(reverse=True)
 
+    return timestamp_values_filtered_list
+
+def timestamp_difference(timestamp_values_filtered_list):
     timestamp_difference = [x - y for x, y in zip(timestamp_values_filtered_list, timestamp_values_filtered_list[1:])]
     print(timestamp_difference)
+
+    return timestamp_difference
 
     for value in timestamp_difference:
         if value not in range(min_frequency, max_frequency):
