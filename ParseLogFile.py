@@ -86,8 +86,12 @@ for file_name in sorted(os.listdir(folder_path)):
     timestamp_difference = [x - y for x, y in zip(timestamp_values_filtered_list, timestamp_values_filtered_list[1:])]
     print(timestamp_difference)
 
-    # for value in timestamp_difference:
-    #     if timestamp_difference not in range():
+    for value in timestamp_difference:
+        if value not in range(min_frequency, max_frequency):
+            print(value)
+            raise AssertionError("Timestamps not correlated with the sample rate!")
+        else:
+            continue
 
 
     # except:
