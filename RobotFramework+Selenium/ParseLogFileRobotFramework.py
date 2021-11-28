@@ -94,7 +94,7 @@ def get_timestamp_values(data):
 
     return timestamp_values_filtered_list
 
-def timestamp_difference(timestamp_values_filtered_list):
+def calculate_timestamp_difference(timestamp_values_filtered_list):
     timestamp_difference = [x - y for x, y in zip(timestamp_values_filtered_list, timestamp_values_filtered_list[1:])]
     print(timestamp_difference)
 
