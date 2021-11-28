@@ -100,6 +100,7 @@ def timestamp_difference(timestamp_values_filtered_list):
 
     return timestamp_difference
 
+def check_timestamp_sample_rate_corelation(timestamp_difference, min_frequency, max_frequency):
     for value in timestamp_difference:
         if value not in range(min_frequency, max_frequency):
             raise AssertionError(f"Timestamps not correlated with the sample rate! Value {value} is out of range!")
