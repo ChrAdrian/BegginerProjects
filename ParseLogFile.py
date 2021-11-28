@@ -14,11 +14,11 @@ sample_rate = {0.1: [10, 11],
                20: [2, 5, 6, 7, 8, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 26, 27, 30],
                100: [3]
                }
-frequency = {0.1: 10000,
-             1: 1000,
-             10: 100,
-             20: 50,
-             100: 10
+frequency = {0.1: [9200, 10800],    # 8% max. deviation [ms]
+             1: [920, 1080],        # 8% max. deviation [ms]
+             10: [92, 108],         # 8% max. deviation [ms]
+             20: [46, 54],          # 8% max. deviation [ms]
+             100: [6, 14]           # 40% max. deviation [ms]
              }
 timestamp_values_filtered_list = []
 
