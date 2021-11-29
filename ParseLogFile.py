@@ -6,6 +6,10 @@ import os
 import re
 
 
+package_type_id = 10
+folder_path = r"C:\Users\Me\Desktop\CUO_Logs"
+
+
 def get_package_frequency_range(package_type_id):
     sample_rate = {0.1: [10, 11],
                    1: [9, 12, 24, 25],
@@ -32,7 +36,7 @@ def get_package_frequency_range(package_type_id):
     max_frequency = deviation_range[1]
     print(f"Accepted frequency deviation range is between {min_frequency} and {max_frequency} milliseconds")
 
-    return min_frequency, max_frequency, package_type_id
+    return min_frequency, max_frequency
 
 
 def read_log_file(folder_path):
@@ -112,8 +116,8 @@ def check_timestamp_sample_rate_correlation(timestamp_difference, min_frequency,
             continue
 
 
-min_frequency, max_frequency, package_type_id = get_package_frequency_range(10)
-timestamp_list, package_type_id_list, file_name = read_log_file(r"C:\Users\Me\Desktop\CUO_Logs")
+min_frequency, max_frequency = get_package_frequency_range(package_type_id)
+timestamp_list, package_type_id_list, file_name = read_log_file(folder_path)
 data = process_data(timestamp_list, package_type_id_list, file_name)
 timestamp_values_filtered_list = get_timestamp_values(data, package_type_id)
 timestamp_difference = calculate_timestamp_difference(timestamp_values_filtered_list)
