@@ -40,6 +40,10 @@ def get_package_frequency_range(package_type_id):
 
 
 def read_log_file(folder_path):
+    timestamp_list = []
+    package_type_id_list = []
+    file_name = ""
+    idx = 0
     for file_name in sorted(os.listdir(folder_path)):
         print(f"Log file in process: {file_name}")
         os.chdir(folder_path)
@@ -47,10 +51,6 @@ def read_log_file(folder_path):
         file_read = open(file_name, "r")
 
         lines = file_read.readlines()
-
-        timestamp_list = []
-        package_type_id_list = []
-        idx = 0
 
         for line in lines:
 
@@ -63,7 +63,7 @@ def read_log_file(folder_path):
 
         file_read.close()
 
-        return timestamp_list, package_type_id_list, file_name
+    return timestamp_list, package_type_id_list, file_name
 
 
 def process_data(timestamp_list, package_type_id_list, file_name):
