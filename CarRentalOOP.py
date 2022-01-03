@@ -74,7 +74,7 @@ class CarRental:
                 bill = round(rental_period.days / 7) * 60 * number_of_cars
 
             # family discount calculation
-            if (3 <= number_of_cars <= 5):
+            if 3 <= number_of_cars <= 5:
                 print("You are eligible for Family rental promotion of 30% discount")
                 bill = bill * 0.7
                 print("The total cost would be ${}".format(bill))
@@ -87,7 +87,7 @@ class CarRental:
 
 class Customer:
     def __init__(self):
-        self.bikes = 0
+        self.cars = 0
         self.rental_basis = 0
         self.rental_time = 0
         self.bill = 0
