@@ -83,3 +83,33 @@ class CarRental:
             else:
                 print("You are not found in our registry.")
                 return None
+
+
+class Customer:
+    def __init__(self):
+        self.bikes = 0
+        self.rental_basis = 0
+        self.rental_time = 0
+        self.bill = 0
+
+    def request_car(self):
+        cars = input("How many cars would you like to rent?")
+
+        # implement logic for invalid input
+        try:
+            cars = int(cars)
+        except ValueError:
+            print("That's not a positive integer!")
+            return -1
+        if cars < 1:
+            print("Invalid input. Number of bikes should be greater than zero!")
+            return -1
+        else:
+            self.cars = cars
+        return self.cars
+
+    def return_car(self):
+        if self.rental_basis != 0 and self.rental_time != 0 and self.cars != 0:
+            return self.rental_time, self.rental_basis, self.cars
+        else:
+            return 0, 0, 0
