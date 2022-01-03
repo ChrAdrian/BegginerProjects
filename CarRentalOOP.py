@@ -2,7 +2,7 @@
 # Brief : car rental project using OOP
 
 
-import datetime
+from datetime import datetime, timedelta
 
 
 class CarRental:
@@ -56,21 +56,21 @@ class CarRental:
         rental_time, rental_basis, number_of_cars = request
         bill = 0
 
-        if rental_time != 0 and rental_basis != 0 and number_of_cars != 0:
+        if rental_time and rental_basis and number_of_cars:
             self.stock += number_of_cars
-            time = datetime.datetime.now()
+            time = datetime.now()
             rental_period = time - rental_time
 
             # hourly bill calculation
-            if rentalBasis == 1:
+            if rental_basis == 1:
                 bill = round(rental_period.seconds / 3600) * 5 * number_of_cars
 
             # daily bill calculation
-            elif rentalBasis == 2:
+            elif rental_basis == 2:
                 bill = round(rental_period.days) * 20 * number_of_cars
 
             # weekly bill calculation
-            elif rentalBasis == 3:
+            elif rental_basis == 3:
                 bill = round(rental_period.days / 7) * 60 * number_of_cars
 
             # family discount calculation
@@ -80,9 +80,9 @@ class CarRental:
                 print("The total cost would be ${}".format(bill))
                 return bill
 
-            else:
-                print("You are not found in our registry.")
-                return None
+        else:
+            print("You are not found in our registry.")
+            return None
 
 
 class Customer:
@@ -109,7 +109,20 @@ class Customer:
         return self.cars
 
     def return_car(self):
-        if self.rental_basis != 0 and self.rental_time != 0 and self.cars != 0:
+        if self.rental_basis and self.rental_time and self.cars:
             return self.rental_time, self.rental_basis, self.cars
         else:
             return 0, 0, 0
+
+
+customer = Customer()
+customer.rental_basis = 1
+customer.cars = 0
+customer.rental_time = 0
+print(customer.return_car())
+
+now = datetime.now()
+customer.rental_time = now
+customer.rental_basis = 1
+customer.cars = 4
+print(customer.return_car())
