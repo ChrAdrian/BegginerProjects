@@ -11,7 +11,7 @@ class CarRental:
 
     def display_stock(self):
         print("The numbers of cars in stock is: {}".format(self.stock))
-        return slef.stock
+        return self.stock
 
     def rent_car_by_hour(self, nr_of_cars):
         if nr_of_cars < 0:
